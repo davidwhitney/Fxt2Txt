@@ -23,7 +23,9 @@ It's provided as a .NETCore 3.0 command line application - so it'll work cross p
 ## Binaries
 
 I imagine the audience for this tool is exceptionally small. Please compile from sources.
-Feel free to get in touch if you can't do that.
+
+The initial 1.0.0 release is available as a GitHub Release for Windows 10 / x64 only.
+- https://github.com/davidwhitney/Fxt2Txt/releases/tag/1.0.0
 
 ## License
 
