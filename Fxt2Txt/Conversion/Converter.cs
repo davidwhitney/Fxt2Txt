@@ -6,26 +6,21 @@ namespace Fxt2Txt.Conversion
 {
     public class Converter
     {
-        private readonly InputFile _inputFile;
-        private readonly FxtSerializer _serializer;
+        private readonly IFxtSerializer _serializer;
+        public Converter(IFxtSerializer serializer) => _serializer = serializer;
 
-        public Converter(InputFile inputFile, FxtSerializer serializer)
+        public string Execute(InputFile inputFile)
         {
-            _inputFile = inputFile;
-            _serializer = serializer;
-        }
-
-        public string Process()
-        {
-            var outBytes = _inputFile switch
+            var file = File.ReadAllBytes(inputFile.Path);
+            var outBytes = inputFile switch
             {
-                { IsFxt: true } => _serializer.DeserializeToBytes(File.ReadAllBytes(_inputFile.Path)),
-                { IsTxt: true } => _serializer.Serialize(File.ReadLines(_inputFile.Path)),
+                { IsFxt: true } => _serializer.Deserialize(file),
+                { IsTxt: true } => _serializer.Serialize(file),
                 _ => throw new InvalidOperationException("Unknown format.")
             };
 
-            File.WriteAllBytes(_inputFile.ConvertedFilename(), outBytes.ToArray());
-            return _inputFile.ConvertedFilename();
+            File.WriteAllBytes(inputFile.ConvertedFilename(), outBytes.ToArray());
+            return inputFile.ConvertedFilename();
         }
     }
 }

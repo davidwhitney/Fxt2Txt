@@ -10,6 +10,8 @@ namespace Fxt2Txt
 
         public InputFile(string path)
         {
+            if(string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Invalid path", nameof(path));
+
             Path = path;
             IsFxt = path.EndsWith(".FXT", StringComparison.InvariantCultureIgnoreCase);
             IsTxt = path.EndsWith(".TXT", StringComparison.InvariantCultureIgnoreCase);

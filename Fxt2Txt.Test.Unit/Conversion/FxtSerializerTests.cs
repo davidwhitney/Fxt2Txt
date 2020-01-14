@@ -26,7 +26,7 @@ namespace Fxt2Txt.Test.Unit.Conversion
             var entries = new List<string> { "[100]This is a test" };
 
             var data = _sut.Serialize(entries).ToList();
-            var result = _sut.Deserialize(data).ToList();
+            var result = _sut.DeserializeAsStrings(data).ToList();
             
             Assert.That(result.Count, Is.EqualTo(1));
         }
@@ -37,7 +37,7 @@ namespace Fxt2Txt.Test.Unit.Conversion
             var entries = new List<string> { "[100]This is a test" };
 
             var data = _sut.Serialize(entries).ToList();
-            var result = _sut.Deserialize(data).ToList();
+            var result = _sut.DeserializeAsStrings(data).ToList();
             
             Assert.That(result[0], Is.EqualTo(entries[0]));
         }
@@ -48,7 +48,7 @@ namespace Fxt2Txt.Test.Unit.Conversion
             var entries = new List<string> { "[100]This is a test" };
 
             var data = _sut.Serialize(entries, true).ToList();
-            var result = _sut.Deserialize(data).ToList();
+            var result = _sut.DeserializeAsStrings(data).ToList();
             
             Assert.That(result.Count, Is.EqualTo(3));
             Assert.That(result[1], Is.EqualTo("[]\u001a"));

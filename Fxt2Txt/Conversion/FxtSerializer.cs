@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -11,16 +9,9 @@ namespace Fxt2Txt.Conversion
         private const byte ExtendedIsoCharsetPrefix = 196;
         private readonly int[] _headerMask = {100, 199, 141, 25, 49, 97, 193, 129};
 
-        public IEnumerable<string> Deserialize(Stream stream)
-        {
-            var bytes = new Span<byte>();
-            stream.Read(bytes);
-            return Deserialize(bytes.ToArray());
-        }
+        public IEnumerable<byte> Deserialize(IEnumerable<byte> bytes) => Encoding.ASCII.GetBytes(string.Join('\n', DeserializeAsStrings(bytes)));
 
-        public IEnumerable<byte> DeserializeToBytes(IEnumerable<byte> bytes) => Encoding.ASCII.GetBytes(string.Join('\n', Deserialize(bytes)));
-
-        public IEnumerable<string> Deserialize(IEnumerable<byte> bytes)
+        public IEnumerable<string> DeserializeAsStrings(IEnumerable<byte> bytes)
         {
             var inputStream = new Queue<int>(bytes.ToArray().Select(x => (int)x));
             var overloads = new Queue<int>(_headerMask);
@@ -65,8 +56,11 @@ namespace Fxt2Txt.Conversion
         public IEnumerable<byte> Serialize(IEnumerable<string> entries, bool addFooter = false)
         {
             var input = string.Join('\n', entries);
-            var bytes = Encoding.UTF8.GetBytes(input);
+            return Serialize(Encoding.UTF8.GetBytes(input), addFooter);
+        }
 
+        public IEnumerable<byte> Serialize(IEnumerable<byte> bytes, bool addFooter = false)
+        {
             var inputStream = new Queue<int>(bytes.ToArray().Select(x => (int) x));
             var overloads = new Queue<int>(_headerMask);
 
