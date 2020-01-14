@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Fxt2Txt
+namespace Fxt2Txt.Conversion
 {
-    public class FxtSerializer
+    public class FxtSerializer : IFxtSerializer
     {
         private const byte ExtendedIsoCharsetPrefix = 196;
         private readonly int[] _headerMask = {100, 199, 141, 25, 49, 97, 193, 129};
@@ -102,6 +102,10 @@ namespace Fxt2Txt
                 yield return 94;
             }
         }
+    }
 
+    public static class MathExtensions
+    {
+        public static int Mod(this int x, int m) => (x % m + m) % m;
     }
 }

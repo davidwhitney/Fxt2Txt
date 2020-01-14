@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="ENGLISH.FXT">
+    <None Remove="TEST.FXT" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TEST.FXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

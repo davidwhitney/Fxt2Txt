@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
+using Fxt2Txt.Conversion;
 
 namespace Fxt2Txt
 {
@@ -8,33 +8,19 @@ namespace Fxt2Txt
     {
         public static int Main(string[] args)
         {
-            var inputFile = new InputFile(args[0]);
-
-            if (!args.Any() || inputFile.IsNotSupported)
+            if (!args.Any())
             {
-                ShowUsage();
+                Console.Error.WriteLine($"No file contents found, could not convert.{Environment.NewLine}" +
+                                        $"Usage examples:{Environment.NewLine}" +
+                                        $"\tFxt2Txt.exe SOMEFILE.FXT [converts SOMEFILE.FXT to SOMEFILE.TXT]{Environment.NewLine}" +
+                                        $"\tFxt2Txt.exe SOMEFILE.TXT [converts SOMEFILE.TXT to SOMEFILE.FXT]");
                 return -1;
             }
 
-            var serializer = new FxtSerializer();
-
-            var outBytes = inputFile switch
-            {
-                { IsFxt: true } => serializer.DeserializeToBytes(File.ReadAllBytes(inputFile.Path)),
-                { IsTxt: true } => serializer.Serialize(File.ReadLines(inputFile.Path)),
-                _ => throw new InvalidOperationException("Unknown format.")
-            };
-
-            File.WriteAllBytes(inputFile.ConvertedFilename(), outBytes.ToArray());
+            var inputFile = new InputFile(args[0]);
+            var converter = new Converter(inputFile, new FxtSerializer());
+            converter.Process();
             return 0;
-        }
-
-        private static void ShowUsage()
-        {
-            Console.Error.WriteLine("No file contents found, could not convert.");
-            Console.Error.WriteLine("Usage examples:");
-            Console.Error.WriteLine("\t\t.exe SOMEFILE.FXT [converts SOMEFILE.FXT to SOMEFILE.TXT]");
-            Console.Error.WriteLine("\t\t.exe SOMEFILE.TXT [converts SOMEFILE.TXT to SOMEFILE.FXT]");
         }
     }
 }

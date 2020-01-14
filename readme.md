@@ -28,3 +28,7 @@ Feel free to get in touch if you can't do that.
 ## License
 
 MIT licensed. Have at it.
+
+## References
+
+Michael's presumably dead and defunct page - https://gta.mendelsohn.de/Welcome.html

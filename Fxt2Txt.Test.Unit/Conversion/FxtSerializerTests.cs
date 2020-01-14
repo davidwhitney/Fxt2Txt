@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fxt2Txt.Conversion;
 using NUnit.Framework;
 
-namespace Fxt2Txt.Test.Unit
+namespace Fxt2Txt.Test.Unit.Conversion
 {
     public class FxtSerializerTests
     {

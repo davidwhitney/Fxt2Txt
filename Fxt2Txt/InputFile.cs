@@ -7,7 +7,6 @@ namespace Fxt2Txt
         public string Path { get; }
         public bool IsFxt { get; }
         public bool IsTxt { get; }
-        public bool IsNotSupported => !IsFxt && !IsTxt;
 
         public InputFile(string path)
         {
